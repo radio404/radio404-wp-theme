@@ -1,0 +1,42 @@
+{
+  "key": "group_artist",
+  "title": "Artiste",
+  "fields": [
+    {
+      "key": "field_no_sync",
+      "label": "Ne plus synchroniser",
+      "name": "no_sync",
+      "type": "true_false",
+      "instructions": "Si la case est coché, les méta-données ne seront plus synchronisées avec RadioKing",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 0,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "album"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

@@ -1,0 +1,166 @@
+{
+  "key": "group_album",
+  "title": "Compilation",
+  "fields": [
+    {
+      "key": "field_artist",
+      "label": "Artiste(s)",
+      "name": "artist",
+      "type": "post_object",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "post_type": [
+        "artist"
+      ],
+      "taxonomy": "",
+      "allow_null": 0,
+      "multiple": 1,
+      "return_format": "object",
+      "ui": 1
+    },
+    {
+      "key": "field_length_seconds",
+      "label": "Durée en seconde (totale)",
+      "name": "length_seconds",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "min": "",
+      "max": "",
+      "step": "0.1"
+    },
+    {
+      "key": "field_length_string",
+      "label": "Durée textuelle (totale)",
+      "name": "length_string",
+      "type": "text",
+      "instructions": "par exemple 01:30 pour une minute trente",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_release_date",
+      "label": "Date de sortie",
+      "name": "release_date",
+      "type": "date_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d\/m\/Y",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_release_year",
+      "label": "Année de sortie",
+      "name": "release_year",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_artist_literal",
+      "label": "Artiste",
+      "name": "artist_literal",
+      "type": "text",
+      "instructions": "champs littéral, issu des données MP3",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_no_sync",
+      "label": "Ne plus synchroniser",
+      "name": "no_sync",
+      "type": "true_false",
+      "instructions": "Si la case est coché, les méta-données ne seront plus synchronisées avec RadioKing",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 0,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "album"
+      }
+    ],
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "podcast"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "Album et Podcast"
+}

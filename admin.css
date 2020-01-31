@@ -1,0 +1,83 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "radio404";
+  src: url("fonts/radio404/fonts/radio404.eot?p2w3v7");
+  src: url("fonts/radio404/fonts/radio404.eot?p2w3v7#iefix") format("embedded-opentype"), url("fonts/radio404/fonts/radio404.ttf?p2w3v7") format("truetype"), url("fonts/radio404/fonts/radio404.woff?p2w3v7") format("woff"), url("fonts/radio404/fonts/radio404.svg?p2w3v7#radio404") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block; }
+[class^="i404-"], [class*=" i404-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "radio404" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.i404-radio404:before {
+  content: "🏁"; }
+
+.i404-coeur:before {
+  content: "♥"; }
+
+.i404-lecture:before {
+  content: "▶"; }
+
+.i404-pause:before {
+  content: "⏸"; }
+
+.i404-pouce-baisse:before {
+  content: "👎"; }
+
+.i404-volume:before {
+  content: "🔔"; }
+
+.i404-Muet:before {
+  content: "🔕"; }
+
+.i404-Radio:before {
+  content: "📻"; }
+
+.i404-radioking:before {
+  content: "👑"; }
+
+.wp-list-table .column-cover {
+  width: 60px;
+  padding-right: 0; }
+
+.wp-list-table .column-album {
+  vertical-align: top; }
+
+.admin-list-cover {
+  width: 50px;
+  height: 50px;
+  vertical-align: text-top; }
+
+.dashicons-radioking:before, .dashicons-radio:before, .dashicons-radio404:before {
+  font-family: "radio404"; }
+.dashicons-radio:before {
+  content: "📻"; }
+.dashicons-radioking:before {
+  content: "👑"; }
+.dashicons-radio404:before {
+  content: "🏁"; }
+
+.editor-post-title__block .editor-post-title__input,
+.editor-styles-wrapper {
+  font-family: "Inter var" !important; }
+
+.editor-styles-wrapper p em {
+  font-weight: 500;
+  font-style: normal;
+  background: #f0f0f0;
+  font-variant: small-caps;
+  text-transform: lowercase;
+  font-size: 1.1em;
+  line-height: 0.9em; }
+
+/*# sourceMappingURL=admin.css.map */

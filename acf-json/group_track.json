@@ -1,0 +1,304 @@
+{
+  "key": "group_track",
+  "title": "Morceau",
+  "fields": [
+    {
+      "key": "field_artist",
+      "label": "Artiste(s)",
+      "name": "artist",
+      "type": "post_object",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "post_type": [
+        "artist"
+      ],
+      "taxonomy": "",
+      "allow_null": 0,
+      "multiple": 1,
+      "return_format": "object",
+      "ui": 1
+    },
+    {
+      "key": "field_album",
+      "label": "Album",
+      "name": "album",
+      "type": "post_object",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "post_type": [
+        "album",
+        "podcast"
+      ],
+      "taxonomy": "",
+      "allow_null": 0,
+      "multiple": 0,
+      "return_format": "object",
+      "ui": 1
+    },
+    {
+      "key": "field_album_post_type",
+      "label": "Typologie",
+      "name": "album_post_type",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "podcast": "Podcast",
+        "playlist": "Playlist"
+      },
+      "default_value": [],
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value",
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_tracklength_seconds",
+      "label": "Durée en seconde (totale)",
+      "name": "tracklength_seconds",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "min": "",
+      "max": "",
+      "step": "0.1"
+    },
+    {
+      "key": "field_tracklength_string",
+      "label": "Durée textuelle (totale)",
+      "name": "tracklength_string",
+      "type": "text",
+      "instructions": "par exemple 01:30 pour une minute trente",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_playtime_seconds",
+      "label": "Durée en seconde",
+      "name": "playtime_seconds",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "min": "",
+      "max": "",
+      "step": "0.1"
+    },
+    {
+      "key": "field_playtime_string",
+      "label": "Durée textuelle",
+      "name": "playtime_string",
+      "type": "text",
+      "instructions": "par exemple 01:30 pour une minute trente",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_bpm",
+      "label": "BPM",
+      "name": "bpm",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "min": "",
+      "max": "",
+      "step": 1
+    },
+    {
+      "key": "field_release_date",
+      "label": "Date de sortie",
+      "name": "release_date",
+      "type": "date_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d\/m\/Y",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_release_year",
+      "label": "Année de sortie",
+      "name": "release_year",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_upload_date",
+      "label": "Date d’upload",
+      "name": "upload_date",
+      "type": "date_time_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d\/m\/Y g:i a",
+      "return_format": "Y-m-dTH:i:sP",
+      "first_day": 1
+    },
+    {
+      "key": "field_artist_literal",
+      "label": "Artiste (littéral)",
+      "name": "artist_literal",
+      "type": "text",
+      "instructions": "champ littéral",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_album_literal",
+      "label": "Album (littéral)",
+      "name": "album_literal",
+      "type": "text",
+      "instructions": "champ littéral",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_no_sync",
+      "label": "Ne plus synchroniser",
+      "name": "no_sync",
+      "type": "true_false",
+      "instructions": "Si la case est coché, les méta-données ne seront plus synchronisées avec RadioKing",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 0,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "track"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
