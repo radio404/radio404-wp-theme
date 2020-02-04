@@ -13,7 +13,6 @@ class Track extends AbstractPostType {
 		add_action( 'restrict_manage_posts', [$this,'restrict_manage_posts']);
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', [$this,'manage_posts_columns'] );
 		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column' , [$this,'manage_posts_custom_column'], 10, 2 );
-		add_action( 'restrict_manage_posts', [$this,'restrict_manage_posts']);
 		add_filter( 'parse_query', [$this,'parse_query'] );
 	}
 
@@ -77,12 +76,17 @@ class Track extends AbstractPostType {
 	}
 
 	private function init_post_type(){
-		register_post_type( self::POST_TYPE, $this->getArgs(), 0 );
-
+		register_post_type( self::POST_TYPE, $this->getArgs() );
 	}
 
-	// Add the custom columns to the book post type:
-	protected function manage_posts_columns($columns) {
+
+	/**
+	 * @param $columns
+	 *
+	 * @return array
+	 * 	Add the custom columns to the book post type:
+	 */
+	public function manage_posts_columns($columns) {
 
 		$columns['author'] = __('Géré par','radio404');
 		$columns['album_post_type'] = __( 'Type', 'radio404' );
@@ -94,8 +98,13 @@ class Track extends AbstractPostType {
 		],array_slice($columns,1));
 	}
 
-	// Add the data to the custom columns for the book post type:
-	protected function manage_posts_custom_column( $column, $post_id ) {
+
+	/**
+	 * @param $column
+	 * @param $post_id
+	 * 	Add the data to the custom columns for the book post type:
+	 */
+	public function manage_posts_custom_column( $column, $post_id ) {
 		switch ( $column ) {
 			case 'album_post_type':
 				$column_value = get_post_meta( $post_id , $column , true );
@@ -122,10 +131,11 @@ class Track extends AbstractPostType {
 		}
 	}
 
-	/*
-	add authors menu filter to admin post list for custom post type
-	*/
-	function restrict_manage_posts($post_type) {
+	/**
+	 * @param $post_type
+	 * 	add authors menu filter to admin post list for custom post type
+	 */
+	public function restrict_manage_posts($post_type) {
 
 		global $wpdb;
 
@@ -207,7 +217,6 @@ class Track extends AbstractPostType {
 	public static function get_track_by_id( $idtrack )
 	{
 
-		// grab page - polylang will take take or language selection ##
 		$args = array(
 			'post_status'       => 'any',
 			'meta_query'        => array(

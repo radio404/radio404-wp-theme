@@ -1,0 +1,43 @@
+.tracks-history__table{
+    width:100%;
+}
+.tracks-history__table .thumbnail{
+    width:25px;
+    height:25px;
+    display: block;
+}
+.tracks-history__table td{
+    min-height:1.5em;
+    line-height: 1.5em;
+}
+.tracks-history__table tr:nth-child(2n){
+    background: #fff;
+}
+.tracks-history__track-title{
+    width:auto;
+}
+.tracks-history__table th{
+    text-align: left;
+}
+
+.tracks-history__table .col-time{
+    width:52px;
+}
+.tracks-history__table .col-cover{
+    width:25px;
+}
+.tracks-history__table .col-artist{
+    width:15%;
+}
+.tracks-history__table .col-album{
+    width:15%;
+}
+.tracks-history__table .col-author{
+    width:10%;
+}
+.tracks-history__table .col-title{
+    width:auto;
+}
+.tracks-history__table .time{
+    background: none;
+}

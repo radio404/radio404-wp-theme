@@ -80,4 +80,10 @@
   font-size: 1.1em;
   line-height: 0.9em; }
 
+.badge-color {
+  display: inline-block;
+  border-radius: 100%;
+  width: 1.2rem;
+  height: 1.2rem; }
+
 /*# sourceMappingURL=admin.css.map */

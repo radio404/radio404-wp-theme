@@ -1,209 +1,235 @@
 {
-  "key": "group_schedule",
-  "title": "Programmation",
-  "fields": [
-    {
-      "key": "field_type",
-      "label": "Typologie",
-      "name": "type",
-      "type": "select",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      },
-      "choices": {
-        "podcast": "Podcast",
-        "playlist": "Playlist"
-      },
-      "default_value": [],
-      "allow_null": 0,
-      "multiple": 0,
-      "ui": 0,
-      "return_format": "value",
-      "ajax": 0,
-      "placeholder": ""
-    },
-    {
-      "key": "field_idschedule",
-      "label": "idschedule",
-      "name": "idschedule",
-      "type": "text",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      }
-    },
-    {
-      "key": "field_no_sync",
-      "label": "Ne plus synchroniser",
-      "name": "no_sync",
-      "type": "true_false",
-      "instructions": "Si la case est coché, les méta-données ne seront plus synchronisées avec RadioKing",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "50",
-        "class": "",
-        "id": ""
-      },
-      "message": "",
-      "default_value": 0,
-      "ui": 0,
-      "ui_on_text": "",
-      "ui_off_text": ""
-    },
-    {
-      "key": "field_start",
-      "label": "Début",
-      "name": "start",
-      "type": "date_time_picker",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      },
-      "display_format": "d\/m\/Y g:i a",
-      "return_format": "Y-m-d H:i:s",
-      "first_day": 1
-    },
-    {
-      "key": "field_end",
-      "label": "Fin",
-      "name": "end",
-      "type": "date_time_picker",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      },
-      "display_format": "d\/m\/Y g:i a",
-      "return_format": "Y-m-d H:i:s",
-      "first_day": 1
-    },
-    {
-      "key": "field_duration_literal",
-      "label": "Durée litérale",
-      "name": "duration_literal",
-      "type": "text",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      }
-    },
-    {
-      "key": "field_duration_seconds",
-      "label": "Durée en secondes",
-      "name": "duration_seconds",
-      "type": "number",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "25",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "min": "",
-      "max": "",
-      "step": "1"
-    },
-    {
-      "key": "field_podcast",
-      "label": "Podcast",
-      "name": "podcast",
-      "type": "post_object",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": [
+    "key": "group_schedule",
+    "title": "Programmation",
+    "fields": [
+        {
+            "key": "field_type",
+            "label": "Typologie",
+            "name": "type",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "podcast": "Podcast",
+                "playlist": "Playlist"
+            },
+            "default_value": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_idschedule",
+            "label": "idschedule",
+            "name": "idschedule",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_no_sync",
+            "label": "Ne plus synchroniser",
+            "name": "no_sync",
+            "type": "true_false",
+            "instructions": "Si la case est coché, les méta-données ne seront plus synchronisées avec RadioKing",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_start",
+            "label": "Début",
+            "name": "start",
+            "type": "date_time_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d\/m\/Y g:i a",
+            "return_format": "Y-m-d H:i:s",
+            "first_day": 1
+        },
+        {
+            "key": "field_end",
+            "label": "Fin",
+            "name": "end",
+            "type": "date_time_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d\/m\/Y g:i a",
+            "return_format": "Y-m-d H:i:s",
+            "first_day": 1
+        },
+        {
+            "key": "field_duration_literal",
+            "label": "Durée litérale",
+            "name": "duration_literal",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_duration_seconds",
+            "label": "Durée en secondes",
+            "name": "duration_seconds",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": "",
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_podcast",
+            "label": "Podcast",
+            "name": "podcast",
+            "type": "post_object",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_type",
+                        "operator": "==",
+                        "value": "podcast"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "podcast"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
+        },
+        {
+            "key": "field_podcast_track",
+            "label": "Épisode(s) du podcast",
+            "name": "podcast_track",
+            "type": "post_object",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_type",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "track"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 1,
+            "return_format": "object",
+            "ui": 1
+        },
+        {
+            "key": "field_color",
+            "label": "Couleur",
+            "name": "color",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": ""
+        }
+    ],
+    "location": [
         [
-          {
-            "field": "field_type",
-            "operator": "==",
-            "value": "podcast"
-          }
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "schedule"
+            }
         ]
-      ],
-      "wrapper": {
-        "width": "50",
-        "class": "",
-        "id": ""
-      },
-      "post_type": [
-        "podcast"
-      ],
-      "taxonomy": "",
-      "allow_null": 1,
-      "multiple": 0,
-      "return_format": "object",
-      "ui": 1
-    },
-    {
-      "key": "field_podcast_track",
-      "label": "Épisode(s) du podcast",
-      "name": "podcast_track",
-      "type": "post_object",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_type",
-            "operator": "!=empty"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "50",
-        "class": "",
-        "id": ""
-      },
-      "post_type": [
-        "track"
-      ],
-      "taxonomy": "",
-      "allow_null": 1,
-      "multiple": 1,
-      "return_format": "object",
-      "ui": 1
-    }
-  ],
-  "location": [
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "schedule"
-      }
-    ]
-  ],
-  "menu_order": 0,
-  "position": "normal",
-  "style": "default",
-  "label_placement": "top",
-  "instruction_placement": "label",
-  "hide_on_screen": "",
-  "active": true,
-  "description": ""
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1580850759
 }

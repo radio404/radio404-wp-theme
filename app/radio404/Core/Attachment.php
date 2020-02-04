@@ -1,24 +1,13 @@
 <?php
+/**
+ * radio404
+ * Date: 2020-02-01
+ */
 
 namespace radio404\Core;
 
 
-class Admin {
-
-	public function __construct() {
-		add_action('admin_print_styles', [$this,'admin_print_styles'], 11);
-	}
-
-	public function admin_print_styles() {
-		$admin_handle = 'admin_css';
-		$admin_stylesheet = get_template_directory_uri() . '/admin.css';
-		wp_enqueue_style($admin_handle, $admin_stylesheet);
-
-		$inter_stylesheet = get_template_directory_uri() . '/fonts/Inter/inter.css';
-		wp_enqueue_style('inter_font_css', $inter_stylesheet,['wp-block-editor']);
-
-	}
-
+class Attachment {
 	/**
 	 * Insert an attachment from an URL address.
 	 *
@@ -31,7 +20,7 @@ class Admin {
 	public static function insert_attachment_from_url($url, $parent_post_id = null, $title = null, $meta = []) {
 		if( !class_exists( 'WP_Http' ) )
 			include_once( ABSPATH . WPINC . '/class-http.php' );
-		$http = new WP_Http();
+		$http = new \WP_Http();
 		$response = $http->request( $url );
 		if( $response['response']['code'] != 200 ) {
 			return false;

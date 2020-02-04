@@ -17,7 +17,7 @@ abstract class AbstractPostType {
 	 */
 	public static function get_post($args){
 		// run query ##
-		$query = new WP_Query($args);
+		$query = new \WP_Query($args);
 		$posts = $query->posts;
 
 		// check results ##

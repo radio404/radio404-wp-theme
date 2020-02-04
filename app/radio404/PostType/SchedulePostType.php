@@ -10,8 +10,9 @@ class Schedule extends AbstractPostType {
 
 	public function __construct(){
 		$this->init_post_type();
-		add_filter( 'manage_'.self::POST_TYPE.'_posts_columns', [self::class,'set_custom_edit_columns'] );
-		add_action( 'rest_'.self::POST_TYPE.'_collection_params', 'rest_collection_params', 10, 2 );
+		add_filter( 'manage_'.self::POST_TYPE.'_posts_columns', [__CLASS__,'set_custom_edit_columns'] );
+		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column' , [$this,'manage_posts_custom_column'], 10, 2 );
+		add_action( 'rest_'.self::POST_TYPE.'_collection_params', [__CLASS__,'rest_collection_params'], 10, 2 );
 	}
 
 	protected function getLabels() :array {
@@ -95,7 +96,6 @@ class Schedule extends AbstractPostType {
 	 */
 	public static function get_schedule_by_id( $idschedule ) {
 
-		// grab page - polylang will take take or language selection ##
 		$args = array(
 			'post_status'    => 'any',
 			'meta_query'     => array(
@@ -109,6 +109,21 @@ class Schedule extends AbstractPostType {
 		);
 
 		return self::get_post($args);
+	}
+
+	public static function set_custom_edit_columns($columns){
+		$columns['color'] = __('Couleur','radio404');
+		return $columns;
+	}
+
+
+	public static function manage_posts_custom_column($column, $post_id){
+		switch ($column){
+			case 'color':
+				$color = get_field('color',$post_id);
+				echo "<span class='badge-color' style='background: $color;'></span>";
+				break;
+		}
 	}
 
 }

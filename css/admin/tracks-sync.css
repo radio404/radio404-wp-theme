@@ -1,0 +1,14 @@
+.tracks-sync-progress{
+    width:100%;
+    display: block;
+}
+.tracks-sync-list .track img{
+    height:30px;
+    width:30px;
+}
+.tracks-sync-list .track .album {
+    font-style: italic;
+}
+.tracks-sync-list .track .artist {
+    font-weight: bold;
+}

@@ -12,7 +12,8 @@ class App {
 	{
 		new Core\ThemeSetup();
 		new Core\Security();
-		new Core\Admin();
+		new Core\AdminPages();
+		new Core\ApiLoader();
 		new Core\Acf();
 
 		new PostType\Schedule();
