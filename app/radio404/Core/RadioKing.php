@@ -120,6 +120,11 @@ class RadioKing {
 		];
 	}
 
+	public static function sync_track_id($idtrack):array{
+		$track = self::fetch_track_details($idtrack);
+		return self::sync_track($track);
+	}
+
 	public static function sync_track($track):array {
 
 		$prepare_sync          = self::prepare_sync_track();
@@ -149,9 +154,17 @@ class RadioKing {
 		return $tracks_imported;
 	}
 
+	public static function fetch_track_details($idtrack){
+		$api_headers = self::get_api_header();
+		$radio_id = self::get_radio_id();
+		$response      = \Requests::get( "https://www.radioking.com/api/track/$radio_id/$idtrack", $api_headers );
+		return json_decode( $response->body )->data;
+	}
+
 	private static function sync_single_track($track, $wp_users_display_name, $default_user_id = 0){
 
-		$wp_track = Track::get_track_by_id($track->idtrack);
+		$idtrack = $track->idtrack ?? $track->id;
+		$wp_track = Track::get_track_by_id($idtrack);
 
 		if($wp_track->ID){
 			$track_no_sync = get_field('no_sync',$wp_track->ID);
@@ -184,8 +197,7 @@ class RadioKing {
 
 		if(!! $wp_track || (intval($wp_track->post_author) <= 0)) {
 			// détails des tags
-			$response      = \Requests::get( "https://www.radioking.com/api/track/240028/$track->idtrack", $api_headers );
-			$track_details = json_decode( $response->body )->data;
+			$track_details = self::fetch_track_details($idtrack);
 			if($track_details->tags){
 				foreach($track_details->tags as $index=>$tag){
 					$tagname = strtolower($tag->name);
@@ -266,7 +278,7 @@ class RadioKing {
 		}
 
 		$wp_track_meta = [
-			'idtrack' => "$track->idtrack",
+			'idtrack' => "$idtrack",
 			'upload_date' => $track->upload_date,
 			'release_year' => $track->year,
 			'bpm' => $track->bpm,
@@ -323,7 +335,7 @@ class RadioKing {
 		if($track->cover_url) {
 			$wp_cover_meta = [
 				'is_cover'    => true,
-				'idtrack'     => $track->idtrack,
+				'idtrack'     => $idtrack,
 				'id_album'    => $wp_album->ID,
 				'album'       => "$track->album",
 				'artist'      => $artist_list,
@@ -523,7 +535,7 @@ class RadioKing {
 		$end_at = \DateTime::createFromFormat(DATE_ISO8601,$track->end_at);
 		$wp_track = Track::get_track_by_id($rk_track_id);
 		if(!$wp_track){
-			$sync = RadioKing::sync_track($track);
+			$sync = RadioKing::sync_track_id($rk_track_id);
 			$wp_track = $sync['wp_track'];
 		}
 		$wp_track_id = $wp_track->ID ?? 0;
@@ -604,9 +616,14 @@ class RadioKing {
 
 	private static function wp_like_track(int $vote, $emoji='❤️', $rk_track_id = 0, $wp_track_id = 0){
 		global $wpdb;
-		if(!$wp_track_id){
-			$wp_track_id = Track::get_track_by_id($rk_track_id);
+		if($rk_track_id){
+			if(!$wp_track_id){
+				$wp_track_id = Track::get_track_by_id($rk_track_id);
+			}
+			if(!$wp_track_id) RadioKing::sync_track_id($rk_track_id);
+			if(!$wp_track_id) return false;
 		}
+
 		// emoji regexp
 		$unicodeRegexp = '([*#0-9](?>\\xEF\\xB8\\x8F)?\\xE2\\x83\\xA3|\\xC2[\\xA9\\xAE]|\\xE2..(\\xF0\\x9F\\x8F[\\xBB-\\xBF])?(?>\\xEF\\xB8\\x8F)?|\\xE3(?>\\x80[\\xB0\\xBD]|\\x8A[\\x97\\x99])(?>\\xEF\\xB8\\x8F)?|\\xF0\\x9F(?>[\\x80-\\x86].(?>\\xEF\\xB8\\x8F)?|\\x87.\\xF0\\x9F\\x87.|..(\\xF0\\x9F\\x8F[\\xBB-\\xBF])?|(((?<zwj>\\xE2\\x80\\x8D)\\xE2\\x9D\\xA4\\xEF\\xB8\\x8F\k<zwj>\\xF0\\x9F..(\k<zwj>\\xF0\\x9F\\x91.)?|(\\xE2\\x80\\x8D\\xF0\\x9F\\x91.){2,3}))?))';
 		preg_match( $unicodeRegexp, $emoji, $matches_emo );
