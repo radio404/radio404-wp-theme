@@ -504,6 +504,9 @@ class RadioKing {
 				$wp_post               = $wp_tracks[ $wp_track_key ];
 				$line->wp_post = $wp_post;
 
+			}else if($line->wp_track_id){
+				$wp_post               = get_post( $line->wp_track_id );
+				$line->wp_post = $wp_post;
 			}
 		}
 

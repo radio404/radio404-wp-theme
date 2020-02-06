@@ -19,6 +19,13 @@ $page_title = __( 'Historique des pistes RadioKing des dernières 24h', 'radio40
         <tbody><?php
 
         try {
+
+	        $utc_timezone = new DateTimeZone('UTC');
+	        $paris_timezone = new DateTimeZone('Europe/Paris');
+	        $now           = new DateTime( 'now', $utc_timezone);
+	        $today         = date_format( $now, 'Y-m-d H:i:sP' );
+	        $yesterday      = date_format( $now->modify( '-1 day' ), 'Y-m-d  H:i:sP' );
+
             $tracks_history = \radio404\Core\RadioKing::get_tracks_history();
             foreach ($tracks_history as $line){
 
@@ -57,12 +64,12 @@ $page_title = __( 'Historique des pistes RadioKing des dernières 24h', 'radio40
                 <td class='col-time'><code class='time' title='<?= $line->rk_track_id ?>'><?= $d ?></code></td>
                 <?php if($wp_post){ ?>
 	            <td class='col-cover'><?= $wp_post_thumbnail_img ?></td>
-	            <td class='col-title tracks-history__track-title'><a href='$wp_post_edit_link'><?= $wp_post->post_title ?></a> </td>
+	            <td class='col-title tracks-history__track-title'><a href='<?= $wp_post_edit_link ?>'><?= $wp_post->post_title ?></a> </td>
 	            <td class='col-artist'><?= $artist_info ?></td>
 	            <td class='col-album'><?= $album_info ?></td>
 	            <td class='col-author'><strong><?= $wp_post_author ?></strong></td>
                 <?php }else{ ?>
-                <td colspan='5'><?= $line->wp_track_id ?></td>
+                <td colspan='5'><?= $line->wp_track_id ?><pre><?php var_dump($line) ?></pre></td>
                 <?php } ?>
                 </tr>
                 <?php
