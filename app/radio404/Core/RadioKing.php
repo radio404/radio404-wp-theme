@@ -21,6 +21,7 @@ class RadioKing {
 	private const _BOXES_TRANSIENT_ = '_RADIOKING_BOXES_';
 	private const _BOXES_TRANSIENT_EXPIRES_ = 604800; // 1 week expiration
 
+	public static const _RK_BASE_URL_ = 'https://www.radioking.com';
 	public static $radio_id;
 	private static $access_token;
 
@@ -94,7 +95,7 @@ class RadioKing {
 		if($boxes) return $boxes;
 
 		$radio_id = self::get_radio_id();
-		$response = \Requests::get("https://www.radioking.com/api/track/box/$radio_id",RadioKing::get_api_header());
+		$response = \Requests::get(self::_RK_BASE_URL_."/api/track/box/$radio_id",RadioKing::get_api_header());
 		$boxes = json_decode($response->body)->data;
 		set_transient(self::_BOXES_TRANSIENT_,$boxes,self::_BOXES_TRANSIENT_EXPIRES_);
 		return $boxes;
@@ -138,7 +139,7 @@ class RadioKing {
 
 		$radio_id    = self::get_radio_id();
 		$api_headers = RadioKing::get_api_header();
-		$url         = "https://www.radioking.com/api/track/tracks/$radio_id/limit/$limit/offset/$offset/order/upload_date/desc?box=$box";
+		$url         = self::_RK_BASE_URL_."/api/track/tracks/$radio_id/limit/$limit/offset/$offset/order/upload_date/desc?box=$box";
 		$response    = \Requests::get( $url, $api_headers );
 
 		$tracks          = json_decode( $response->body )->data;
@@ -157,7 +158,7 @@ class RadioKing {
 	public static function fetch_track_details($idtrack){
 		$api_headers = self::get_api_header();
 		$radio_id = self::get_radio_id();
-		$response      = \Requests::get( "https://www.radioking.com/api/track/$radio_id/$idtrack", $api_headers );
+		$response      = \Requests::get( self::_RK_BASE_URL_."/api/track/$radio_id/$idtrack", $api_headers );
 		return json_decode( $response->body )->data;
 	}
 
@@ -387,7 +388,7 @@ class RadioKing {
 		$day = date('w');
 		$week_start = date('Y-m-d', strtotime('-'.($day).' days'));
 		$week_end = date('Y-m-d', strtotime('+'.(7-$day).' days'));
-		$response = \Requests::get("https://www.radioking.com/api/radio/$radio_id/schedule/planned/$week_start/to/$week_end",$api_headers);
+		$response = \Requests::get(self::_RK_BASE_URL_."/api/radio/$radio_id/schedule/planned/$week_start/to/$week_end",$api_headers);
 		$radioking_schedules = json_decode($response->body)->data;
 		foreach ($radioking_schedules as &$schedule){
 			$schedule->day_playlist = !!preg_match('/^Day #\d/',$schedule->name);
@@ -399,7 +400,7 @@ class RadioKing {
 			$track_listing = get_field('track_listing',$wp_schedule) ?? [];
 
 			if($schedule->idplaylist){
-				$response = \Requests::get("https://www.radioking.com/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0",$api_headers);
+				$response = \Requests::get(self::_RK_BASE_URL_."/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0",$api_headers);
 				$schedule->playlist = json_decode($response->body)->data;
 				foreach ($schedule->playlist->tracks as &$track){
 					$wp_track = Track::get_track_by_id($track->idtrack);
@@ -559,7 +560,7 @@ class RadioKing {
 	public static function like_track($payload){
 		$radio_id = self::get_radio_id();
 		// fetch now playing data track
-		$response = \Requests::get( "https://www.radioking.com/widgets/api/v1/radio/$radio_id/track/current" );
+		$response = \Requests::get( self::_RK_BASE_URL_."/widgets/api/v1/radio/$radio_id/track/current" );
 		$current = false;
 		if($response->body){
 			$current = json_decode($response->body);
@@ -577,41 +578,41 @@ class RadioKing {
 		];
 	}
 
-	private static function radioking_like_track($vote=1, $with_proxy=false, $try_count=0, $max_try=8){
+	private static function radioking_like_track($vote=1, $with_proxy=false, $try_count=0, $max_try=6){
 
-		global $proxy_list;
+		$radio_id = RadioKing::get_radio_id();
+		$url = self::_RK_BASE_URL_."/api/radio/$radio_id/track/vote";
 		$ch = curl_init();
-		$url = "https://www.radioking.com/api/radio/240028/track/vote";
 		$headers = [];
-		$ip = Security::get_the_user_ip();
 
 		curl_setopt($ch, CURLOPT_POST,true);
 		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_TIMEOUT,6);
+		curl_setopt($ch, CURLOPT_TIMEOUT,4 + $try_count);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"vote\":$vote}");
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, [
-			"REMOTE_ADDR: $ip",
-			"X_FORWARDED_FOR: $ip"
-		]);
+		if($with_proxy) {
+			$proxy_url = Security::get_fresh_public_proxy();
+			curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+			curl_setopt($ch, CURLOPT_PROXY, $proxy_url);
+			curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+		}
 
 		$curl_body = curl_exec($ch);
 		$curl_error = curl_error($ch);
 		curl_close($ch);
 
 		$json_body = json_decode($curl_body);
-		if($curl_error) {
-			return ['status'=>'error','message'=>$curl_error,'ip'=>$ip];
-		}
-		if($json_body->status === 'success'){
-			return $json_body;
-		}else if($json_body->status === 'error'){
-			return array_merge((array) $json_body,['ip'=>$ip]);
+		if($curl_error && !$with_proxy) {
+			return ['status'=>'error','message'=>$curl_error];
+		}else if($json_body->status === 'success'){
+			return array_merge((array) $json_body,['try_count'=>$try_count]);
+		}else if($try_count<$max_try){
+			return self::radioking_like_track($vote,true,$try_count+1,$max_try);
 		}else{
-			return ['status'=>'error','message'=>'fatal error','ip'=>$ip];
+			return ['status'=>'error','message'=>'fatal error','try_count'=>$try_count,'curl_error'=>$curl_error];
 		}
 
 
