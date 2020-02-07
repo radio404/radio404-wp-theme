@@ -15,32 +15,40 @@ class SchedulesSyncApi extends AbstractApi {
 
 		return [
 			'schedules/fetch' => [
-				'methods' => 'POST',
+				'methods' => ['POST'],
 				'callback' => [$this,'schedules_fetch'],
-				'permission_callback' => [$this,'permission_is_admin']
+				'permission_callback' => [$this,'permission_is_admin'],
+				'args' => [
+					'start'=>['required'=>true],
+					'end'=>['required'=>true],
+				]
 			],
 			'schedules/import' => [
-				'methods' => 'POST',
+				'methods' => ['POST'],
 				'callback' => [$this,'schedules_import'],
-				'permission_callback' => [$this,'permission_is_admin']
+				'permission_callback' => [$this,'permission_is_admin'],
+				'args' => [
+					'start'=>['required'=>true],
+					'end'=>['required'=>true],
+				]
 			],
 		];
 	}
 
-	public function schedules_fetch(){
+	public function schedules_fetch(\WP_REST_Request $request){
 
-		return self::schedules_sync('fetch');
+		return self::schedules_sync('fetch',$request['start'],$request['end']);
 	}
 
-	public function schedules_import(){
+	public function schedules_import(\WP_REST_Request $request){
 
-		return self::schedules_sync('import');
+		return self::schedules_sync('import',$request['start'],$request['end']);
 	}
 
-	public function schedules_sync($mode){
+	public function schedules_sync($mode,int $start,int $end){
 
 		try {
-			$schedules = RadioKing::radioking_sync_week_planned($mode);
+			$schedules = RadioKing::radioking_sync_period_planned($mode,$start,$end);
 		}catch (\Throwable $exception){
 			return new \WP_REST_Response(['message'=>$exception->getMessage()], 500);
 		}

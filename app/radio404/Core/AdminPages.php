@@ -14,6 +14,10 @@ class AdminPages {
 		add_action('admin_menu', [$this,'admin_menu']);
 	}
 
+	public static function get_js_uri($admin_script_name){
+		return get_template_directory_uri() . '/dist/admin-'.$admin_script_name.'.js';
+	}
+
 	function radioking_dashboard_page(){
 		include (__DIR__.'/../pages/radioking-dashboard.php');
 	}

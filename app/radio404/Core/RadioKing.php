@@ -18,10 +18,14 @@ class RadioKing {
 
 	private const _ACCESS_TOKEN_TRANSIENT_ = '_RADIOKING_ACCESS_TOKEN_';
 	private const _REFRESH_TOKEN_TRANSIENT_ = '_RADIOKING_REFRESH_TOKEN_';
+	private const _REQUEST_URL_TRANSIENT_ = '_RADIOKING_URL_';
+	private const _REQUEST_SYNC_PERIOD_TRANSIENT_ = '_REQUEST_SYNC_PERIOD_TRANSIENT_';
+	private const _REQUEST_URL_TRANSIENT_EXPIRES_ = 300;
+
 	private const _BOXES_TRANSIENT_ = '_RADIOKING_BOXES_';
 	private const _BOXES_TRANSIENT_EXPIRES_ = 604800; // 1 week expiration
 
-	public static const _RK_BASE_URL_ = 'https://www.radioking.com';
+	public const _RK_BASE_URL_ = 'https://www.radioking.com';
 	public static $radio_id;
 	private static $access_token;
 
@@ -382,14 +386,23 @@ class RadioKing {
 		return str_replace('&amp;','&',$value);
 	}
 
-	public static function radioking_sync_week_planned($mode='fetch'){
+	public static function getRequestCachedData($url,int $expiration=self::_REQUEST_URL_TRANSIENT_EXPIRES_){
+		if($data = get_transient($url)) return $data;
 		$api_headers = self::get_api_header();
+		$response = \Requests::get(self::_RK_BASE_URL_.$url,$api_headers);
+		$data = json_decode($response->body)->data;
+		if($data){
+			set_transient($url,$data,$expiration);
+		}
+		return $data;
+	}
+
+	public static function radioking_sync_period_planned($mode='fetch',int $start=0,int $end=0){
 		$radio_id = self::get_radio_id();
-		$day = date('w');
-		$week_start = date('Y-m-d', strtotime('-'.($day).' days'));
-		$week_end = date('Y-m-d', strtotime('+'.(7-$day).' days'));
-		$response = \Requests::get(self::_RK_BASE_URL_."/api/radio/$radio_id/schedule/planned/$week_start/to/$week_end",$api_headers);
-		$radioking_schedules = json_decode($response->body)->data;
+		$week_start = date('Y-m-d', $start);
+		$week_end = date('Y-m-d', $end);
+		$radioking_schedules = self::getRequestCachedData("/api/radio/$radio_id/schedule/planned/$week_start/to/$week_end");
+		$mixed_schedules = [];
 		foreach ($radioking_schedules as &$schedule){
 			$schedule->day_playlist = !!preg_match('/^Day #\d/',$schedule->name);
 			if($schedule->day_playlist){
@@ -400,8 +413,7 @@ class RadioKing {
 			$track_listing = get_field('track_listing',$wp_schedule) ?? [];
 
 			if($schedule->idplaylist){
-				$response = \Requests::get(self::_RK_BASE_URL_."/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0",$api_headers);
-				$schedule->playlist = json_decode($response->body)->data;
+				$schedule->playlist = self::getRequestCachedData("/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0");
 				foreach ($schedule->playlist->tracks as &$track){
 					$wp_track = Track::get_track_by_id($track->idtrack);
 					if($track->idtrackbox === 3){
@@ -476,8 +488,13 @@ class RadioKing {
 					update_field( $field_key, $field_value, $wp_schedule->ID );
 				}
 			}
+
+			if($wp_schedule->ID){
+				$schedule->wp_edit_link = str_replace("&amp;","&",get_edit_post_link($wp_schedule->ID));
+			}
+			$mixed_schedules[] = $schedule;
 		}
-		return $radioking_schedules;
+		return $mixed_schedules;
 	}
 
 	public static function get_tracks_history(){

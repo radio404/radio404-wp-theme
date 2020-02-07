@@ -4,3 +4,5 @@
 composer.phar
 /vendor/
 
+/dist/
+/node_modules/
