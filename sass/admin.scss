@@ -3,6 +3,18 @@ $icomoon-font-path:"fonts/radio404/fonts";
 
 $inter: 'Inter var';
 
+progress {
+  -webkit-appearance: none;
+  margin: 1em 0;
+}
+::-webkit-progress-bar{
+  background: #ccc;
+}
+::-webkit-progress-value{
+  transition: width 2s;
+  background: #333;
+}
+
 .wp-list-table .column-cover{
   width:60px;
   padding-right:0;
