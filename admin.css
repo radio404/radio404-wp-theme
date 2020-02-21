@@ -86,4 +86,15 @@
   width: 1.2rem;
   height: 1.2rem; }
 
+.small-icon {
+  font-size: 1em;
+  line-height: 1em;
+  height: 1em;
+  width: 1em;
+  vertical-align: text-bottom;
+  margin: 0 .1em 0 0; }
+  .fc-list-item-title .small-icon {
+    margin: 0 10px 0 0;
+    vertical-align: initial; }
+
 /*# sourceMappingURL=admin.css.map */

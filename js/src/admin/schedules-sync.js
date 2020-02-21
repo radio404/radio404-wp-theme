@@ -31,6 +31,7 @@ jQuery(document).ready(function($){
             }
         },
         events:calendarEvents,
+        eventRender:eventRender,
         allDaySlot:false
     });
 
@@ -44,8 +45,30 @@ jQuery(document).ready(function($){
         });
     }
 
+    function eventRender(info){
+        console.log('eventRenderer',info);
+        const {el,view,event} = info,
+            isList = /^list/.test(view.type),
+            titleSelector = isList ? '.fc-list-item-title' : '.fc-title';
+        const titleEl = el.querySelector(titleSelector);
+        if(!titleEl) return;
+
+        let iconEl = document.createElement('SPAN');
+        iconEl.classList = 'small-icon dashicons dashicons-';
+        if(isList){
+            iconEl.style.color = event.backgroundColor;
+        }
+        if(event.extendedProps.type === 'podcast'){
+            iconEl.classList += 'rss';
+        }else{
+            iconEl.classList += 'playlist-audio';
+        }
+        titleEl.prepend(iconEl);
+    }
+
     function mapScheduleToEvent(schedule){
-        const {idschedule,name,wp_edit_link,color} = schedule,
+        const {idschedule,name,wp_edit_link,color,wp_schedule_meta} = schedule,
+            {type} = wp_schedule_meta,
             schedule_start = new Date(schedule.schedule_start),
             schedule_end = new Date(schedule.schedule_end);
         let classNames = [];
@@ -62,6 +85,7 @@ jQuery(document).ready(function($){
             backgroundColor:color,
             borderColor:color,
             classNames:classNames,
+            type:type,
         };
     }
 

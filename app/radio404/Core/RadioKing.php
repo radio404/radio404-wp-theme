@@ -412,37 +412,48 @@ class RadioKing {
 			$wp_schedule = Schedule::get_schedule_by_id($schedule->idschedule);
 			$track_listing = get_field('track_listing',$wp_schedule) ?? [];
 
-			if($schedule->idplaylist){
-				$schedule->playlist = self::getRequestCachedData("/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0");
-				foreach ($schedule->playlist->tracks as &$track){
-					$wp_track = Track::get_track_by_id($track->idtrack);
-					if($track->idtrackbox === 3){
-						$type = 'podcast';
-						$wp_track->acf = get_fields($wp_track->ID) ?? [];
-						$wp_podcast = get_post($wp_track->acf['album']);
-						$wp_podcast->acf = get_fields($wp_track->acf['album']);
-						$schedule->podcast_id = $wp_track->acf['album'];
-						$schedule->podcast = $wp_podcast;
-						$track->wp_track = $wp_track;
-						$podcast_track_id = $wp_track->ID;
-					}
-					$is_in_track_listing = false;
-					foreach($track_listing as $item){
-						if($wp_track) {
-							$item_track          = $item['track'];
-							$is_in_track_listing |= ( !! $item_track && ( $item_track->ID === $wp_track->ID ) );
-						}else{
-							$is_in_track_listing |= ( !! $item['title'] && ( $item['title'] === $track->title ) );
+			if(!$wp_schedule->ID || $mode === 'import') {
+
+				if ( $schedule->idplaylist ) {
+					$schedule->playlist = self::getRequestCachedData( "/api/playlist/tracks/$radio_id/$schedule->idplaylist?limit=50&offset=0" );
+					foreach ( $schedule->playlist->tracks as &$track ) {
+						$wp_track = Track::get_track_by_id( $track->idtrack );
+						if ( $track->idtrackbox === 3 ) {
+							$type                 = 'podcast';
+							$wp_track->acf        = get_fields( $wp_track->ID ) ?? [];
+							$wp_podcast           = get_post( $wp_track->acf['album'] );
+							$wp_podcast->acf      = get_fields( $wp_track->acf['album'] );
+							$schedule->podcast_id = $wp_track->acf['album'];
+							$schedule->podcast    = $wp_podcast;
+							$track->wp_track      = $wp_track;
+							$podcast_track_id     = $wp_track->ID;
 						}
-					};
-					if(!$is_in_track_listing){
-						if($wp_track){
-							$track_listing = array_merge($track_listing,[['track'=>$wp_track->ID]]);
-						}else{
-							$track_listing = array_merge($track_listing,[['title'=>$track->title,'tracklength_string'=>$track->tracklength_string,'tr'=>$track]]);
+						$is_in_track_listing = false;
+						foreach ( $track_listing as $item ) {
+							if ( $wp_track ) {
+								$item_track          = $item['track'];
+								$is_in_track_listing |= ( ! ! $item_track && ( $item_track->ID === $wp_track->ID ) );
+							} else {
+								$is_in_track_listing |= ( ! ! $item['title'] && ( $item['title'] === $track->title ) );
+							}
+						};
+						if ( ! $is_in_track_listing ) {
+							if ( $wp_track ) {
+								$track_listing = array_merge( $track_listing, [ [ 'track' => $wp_track->ID ] ] );
+							} else {
+								$track_listing = array_merge( $track_listing, [
+									[
+										'title'              => $track->title,
+										'tracklength_string' => $track->tracklength_string,
+										'tr'                 => $track
+									]
+								] );
+							}
 						}
 					}
 				}
+			}else if($wp_schedule->ID){
+				$type = get_field('type',$wp_schedule->ID);
 			}
 
 			$schedule_start = new \DateTime($schedule->schedule_start);
@@ -482,7 +493,7 @@ class RadioKing {
 					$wp_schedule    = get_post( $wp_schedule_id );
 				} else {
 					$wp_schedule_attr['ID'] = $wp_schedule->ID;
-					$wp_schedule_id         = wp_update_post( $wp_schedule_attr );
+					wp_update_post( $wp_schedule_attr );
 				}
 				foreach ( $wp_schedule_meta as $field_key => $field_value ) {
 					update_field( $field_key, $field_value, $wp_schedule->ID );
